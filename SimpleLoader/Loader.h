@@ -72,5 +72,61 @@ public:
 	/// Функция для эксперементов.
 	/// </summary>
 	void DoSome();
+
+	/// <summary>
+	/// Возвращает записанный инт.
+	/// </summary>
+	/// <param name="name">Имя.</param>
+	/// <returns>Записанное значение.</returns>
+	int GetInt(std::string name);
+
+	/// <summary>
+	/// Возвращает записанный дабл.
+	/// </summary>
+	/// <param name="name">Имя.</param>
+	/// <returns>Записанное значение.</returns>
+	double GetDouble(std::string name);
+
+	/// <summary>
+	/// Возвращает записанный стринг.
+	/// </summary>
+	/// <param name="name">Имя.</param>
+	/// <returns>Записанное значение.</returns>
+	std::string GetString(std::string name);
+
+	/// <summary>
+	/// Возвращает записанный массив инт.
+	/// </summary>
+	/// <param name="name">Имя.</param>
+	/// <returns>Записанное значение.</returns>
+	int* GetIntMas(std::string name);
+
+	/// <summary>
+	/// Возвращает записанный массив дабл.
+	/// </summary>
+	/// <param name="name">Имя.</param>
+	/// <returns>Записанное значение.</returns>
+	double* GetDoubleMas(std::string name);
+
+	/// <summary>
+	/// Возвращает записанный мфссив стринг.
+	/// </summary>
+	/// <param name="name">Имя.</param>
+	/// <returns>Записанное значение.</returns>
+	std::string* GetStringMas(std::string name);
+
+	/// <summary>
+	/// Определяет тип параметра.
+	/// </summary>
+	/// <param name="name">Имя</param>
+	/// <returns>тип</returns>
+	int  GetType(std::string name);
+
+	/// <summary>
+	/// Возвращает длину массива.
+	/// </summary>
+	/// <param name="name">Имя.</param>
+	/// <returns>Длина.</returns>
+	int GetMasSize(std::string name);
 };
 

@@ -170,7 +170,6 @@ void Loader::ParseMas(std::string name, int type, Value* valValue) {
 		_nameSizeMas.insert(make_pair(name, size));
 		
 	}
-	
 }
 
 void Loader::DoSome() {
@@ -213,4 +212,44 @@ void Loader::DoSome() {
 		cout << "]\n";
 	}
 	
+}
+
+int Loader::GetInt(std::string name)
+{
+	return _nameInt[name];
+}
+
+double Loader::GetDouble(std::string name)
+{
+	return _nameDouble[name];
+}
+
+std::string Loader::GetString(std::string name)
+{
+	return _nameString[name];
+}
+
+int* Loader::GetIntMas(std::string name)
+{
+	return _nameIntMas[name];
+}
+
+double* Loader::GetDoubleMas(std::string name)
+{
+	return _nameDoubleMas[name];
+}
+
+std::string* Loader::GetStringMas(std::string name)
+{
+	return _nameStringMas[name];
+}
+
+int Loader::GetType(std::string name)
+{
+	return _nameType[name];
+}
+
+int Loader::GetMasSize(std::string name)
+{
+	return _nameSizeMas[name];
 }
