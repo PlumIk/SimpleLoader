@@ -1,32 +1,19 @@
+#pragma once
 #include <string>
 #include <iostream>
 #include <map>
 #include <vector>
-#include "rapidjson/document.h"
-#include "rapidjson/istreamwrapper.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
-using namespace rapidjson;
 
-class Loader
+using namespace std;
+
+class ParamsBase
 {
 private:
 
-
 	/// <summary>
-	/// Словарь имя-тип.
+	/// Флаг, изменилось ли что-то.
 	/// </summary>
-	std::map <std::string , int> _nameType;
-
-	/// <summary>
-	/// Парсит массивы из json.
-	/// </summary>
-	/// <param name="name">Имя переменной.</param>
-	/// <param name="type">Тип пееменной.</param>
-	/// <param name="val">Запакованное значение.</param>
-	void ParseMas(std::string name, int type, Value* val);
-
-public:	
+	bool _someChange =false;
 
 	/// <summary>
 	/// Словарь имя-инт.
@@ -58,23 +45,26 @@ public:
 	/// </summary>
 	std::map <std::string, std::vector<std::string>> _nameStringMas;
 
-	/// <summary>
-	/// Конструктор по умолчанию.
-	/// </summary>
-	Loader();
 
-	/// <summary>
-	/// Конструктор класса.
-	/// </summary>
-	/// <param name="filePath">Расположения файла.</param>
-	Loader(std::string filePath);
+	void Reload();
+
+public:
+
+
+	vector<string> Changed();
 
 	/// <summary>
 	/// Функция для эксперементов.
 	/// </summary>
 	void DoSome();
 
-	std::vector<std::string> GetNames();
+	void Update();
+
+	map <string, bool> isChanged;
+
+	ParamsBase(string FilePath);
+
+	bool GetIsChange();
 
 	/// <summary>
 	/// Возвращает записанный инт.

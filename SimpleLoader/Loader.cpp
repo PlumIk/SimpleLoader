@@ -16,6 +16,8 @@ using namespace rapidjson;
 /// </summary>
 Types _types = Types();
 
+Loader::Loader(){}
+
 Loader::Loader(std::string filePath) {
 	ifstream file;
 	file.open(filePath);
@@ -24,7 +26,6 @@ Loader::Loader(std::string filePath) {
 		Document documentFromFile;
 		documentFromFile.ParseStream(isw);
 		for (auto& m : documentFromFile.GetObject()) {
-			cout << "Type of member " << m.name.GetString() << " " << m.value.GetType() << endl;
 			Value& val = m.value;
 			if (val.HasMember(_types.TYPE) && val.HasMember(_types.VALUE)&&val.MemberCount() == 2) {
 				int valType = val.FindMember(_types.TYPE)->value.GetInt();

@@ -128,11 +128,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Loader.cpp" />
+    <ClCompile Include="ParamsBase.cpp" />
     <ClCompile Include="SimpleLoader.cpp" />
     <ClCompile Include="Types.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h" />
+    <ClInclude Include="ParamsBase.h" />
     <ClInclude Include="Types.h" />
   </ItemGroup>
   <ItemGroup>
