@@ -3,6 +3,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include "Loader.h"
 
 using namespace std;
 
@@ -51,6 +52,8 @@ private:
 public:
 
 
+	ParamsBase();
+
 	vector<string> Changed();
 
 	/// <summary>
@@ -62,7 +65,7 @@ public:
 
 	map <string, bool> isChanged;
 
-	ParamsBase(string FilePath);
+	ParamsBase(Loader* loader);
 
 	bool GetIsChange();
 
@@ -113,6 +116,6 @@ public:
 	/// </summary>
 	/// <param name="name">Имя</param>
 	/// <returns>тип</returns>
-	int  GetType(std::string name);
+	int GetType(std::string name);
 };
 

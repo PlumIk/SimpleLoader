@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\DataFinder">
+      <UniqueIdentifier>{177054ae-183a-4424-91b5-09fcf85e90cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DataFinder">
+      <UniqueIdentifier>{b6ea7114-43b7-4584-a748-c20bcb521527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{fcdac68a-f83e-4ec4-82cd-c6cb55b3ae74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SimpleLoader.cpp">
@@ -27,6 +36,12 @@
     <ClCompile Include="ParamsBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IFinder.cpp">
+      <Filter>Source Files\DataFinder</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomSearch.cpp">
+      <Filter>Source Files\DataFinder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Loader.h">
@@ -38,8 +53,20 @@
     <ClInclude Include="ParamsBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IFinder.h">
+      <Filter>Header Files\DataFinder</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomSearch.h">
+      <Filter>Header Files\DataFinder</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="..\..\RandomSearch.json">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="..\..\Text.json">
+      <Filter>Data</Filter>
+    </None>
   </ItemGroup>
 </Project>

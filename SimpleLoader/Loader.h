@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 #include <iostream>
 #include <map>
@@ -31,32 +32,32 @@ public:
 	/// <summary>
 	/// Словарь имя-инт.
 	/// </summary>
-	std::map <std::string, int> _nameInt;
+	std::map <std::string, int> NameInt;
 
 	/// <summary>
 	/// Словарь имя-дабл.
 	/// </summary>
-	std::map <std::string, double> _nameDouble;
+	std::map <std::string, double> NameDouble;
 
 	/// <summary>
 	/// Словарь имя-строка.
 	/// </summary>
-	std::map <std::string, std::string> _nameString;
+	std::map <std::string, std::string> NameString;
 
 	/// <summary>
 	/// Словарь имя-массив инт.
 	/// </summary>
-	std::map <std::string, std::vector<int>> _nameIntMas;
+	std::map <std::string, std::vector<int>> NameIntMas;
 
 	/// <summary>
 	/// Словарь имя-массив дабл.
 	/// </summary>
-	std::map <std::string, std::vector<double>> _nameDoubleMas;
+	std::map <std::string, std::vector<double>> NameDoubleMas;
 
 	/// <summary>
 	/// Словарь имя-массив строк.
 	/// </summary>
-	std::map <std::string, std::vector<std::string>> _nameStringMas;
+	std::map <std::string, std::vector<std::string>> NameStringMas;
 
 	/// <summary>
 	/// Конструктор по умолчанию.
