@@ -1,0 +1,10 @@
+{
+  "one": {
+    "type": 1,
+    "value": 1
+  },
+  "one_restrictions": {
+    "type": 4,
+    "value": [0, 20]
+  }
+}

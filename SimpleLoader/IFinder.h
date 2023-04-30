@@ -1,8 +1,28 @@
 #pragma once
-#include "Types.h"
-#include "Loader.h"
+#include "Keywords.h"
+#include "MainParamsBase.h"
+
 class IFinder
 {
+public:
+
+	struct LocalObject
+	{
+		int type;
+		int intValue;
+		double doubleValue;
+	};
+
+	IFinder(MainParamsBase* params);
+
+	void TryOptimize(vector<string> optimizedParams);
+
+	bool IsEnd(double optimizedValue);
+
+	void selectBestSuggest();
+
+	void selectBestSuggest(vector<string> names);
+
 private:
 
 	IFinder();
@@ -11,19 +31,16 @@ protected:
 
 	double _previose = std::numeric_limits<double>::max();
 
-	Types _types = Types();
+	map<string, LocalObject> bestSuggest;
 
-	Loader* _params;
+	Keywords keywords = Keywords();
+
+	MainParamsBase* _params;
 
 	bool isConst(int type);
 
-public:
+	void setGlobalBestSuggest(string name);
 
-	IFinder(Loader* params);
-
-	void TryOptimize(vector<string> optimizedParams);
-
-	bool IsEnd(double optimizedValue);
-
+	void setBestSuggest(string name, LocalObject object);
 };
 

@@ -27,10 +27,10 @@
     <ClCompile Include="SimpleLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Loader.cpp">
+    <ClCompile Include="MainParamsBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Types.cpp">
+    <ClCompile Include="Keywords.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ParamsBase.cpp">
@@ -42,12 +42,15 @@
     <ClCompile Include="RandomSearch.cpp">
       <Filter>Source Files\DataFinder</Filter>
     </ClCompile>
+    <ClCompile Include="NewLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Loader.h">
+    <ClInclude Include="MainParamsBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Types.h">
+    <ClInclude Include="Keywords.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ParamsBase.h">
@@ -59,6 +62,9 @@
     <ClInclude Include="RandomSearch.h">
       <Filter>Header Files\DataFinder</Filter>
     </ClInclude>
+    <ClInclude Include="NewLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -66,6 +72,12 @@
       <Filter>Data</Filter>
     </None>
     <None Include="..\..\Text.json">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="Restrictions.json">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="NewFormat.json">
       <Filter>Data</Filter>
     </None>
   </ItemGroup>

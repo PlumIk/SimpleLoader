@@ -1,6 +1,6 @@
 #include <string>
 #include <iostream>
-#include "Loader.h"
+#include "MainParamsBase.h"
 #include "ParamsBase.h"
 #include <cmath>
 #include <fstream>
@@ -27,33 +27,12 @@ __m256* VRoMass;
 #define SAVE_VARIBLE_NAME(varible) VARIBLE_NAME = string(#varible);
 string VARIBLE_NAME = "NULL";
 
-
-int main()
-{
-    string filePath = "D:\\Prog\\Luna\\RandomSearch.json";
-    cout << "I test\n" << filePath<<endl;
-
-    Loader* loader = new Loader(filePath);
-    ParamsBase a = ParamsBase(loader);
-    RandomSearch finder = RandomSearch(loader);
-    int value = 32;
-    vector<string> optimizeNamel;
-    optimizeNamel.push_back("one");
-    optimizeNamel.push_back("two");
-    while (finder.IsEnd(value))
-    {
-        finder.TryOptimize(optimizeNamel);
-        a.Update();
-        cout << "Int value = " << a.GetInt("one") << ", Double value = " << a.GetDouble("two")<<endl;
-        value = value / 2;
-    }
-
-
-    return 0;
-
-}
-
-void mainProg(Loader loader, ParamsBase a) {
+void mainProg() {
+    string filePath = "D:\\Prog\\Luna\\Text.json";
+    cout << "I test\n" << filePath << endl;
+    MainParamsBase* params = new MainParamsBase(filePath);
+    ParamsBase a = ParamsBase(params);
+    RandomSearch finder = RandomSearch(params);
     SAVE_VARIBLE_NAME(Xa);
     Xa = a.GetDouble(VARIBLE_NAME);
     SAVE_VARIBLE_NAME(Xb);
@@ -102,11 +81,25 @@ void mainProg(Loader loader, ParamsBase a) {
     float const5 = ((float)1) / ((float)4);
     float test;
     int k;
+    vector<string> optimizeNamel;
+    optimizeNamel.push_back("n");
+    double value = 0;
+    bool skip = false;
     for (k = 0; k < Nt; k++) {
         test = 0;
-        a.DoSome();
-        a.Update();
-        n = a.GetInt(VARIBLE_NAME);
+        if (value != 0 && !skip) {
+            if (finder.IsEnd(value))
+            {
+                finder.TryOptimize(optimizeNamel);
+                a.Update();
+            }
+            else {
+                finder.selectBestSuggest();
+                a.Update();
+                skip = true;
+            }
+            n = a.GetInt(VARIBLE_NAME);
+        }
         omp_set_dynamic(0);
         omp_set_num_threads(n);
         double start = omp_get_wtime();
@@ -122,7 +115,8 @@ void mainProg(Loader loader, ParamsBase a) {
             }
         }
         double end = omp_get_wtime();
-        printf("Start in %d. Time %f.  ", n, end - start);
+        value = end - start;
+        printf("Start in %d. Time %f. ", n, value);
         for (i = 1; i < Ny - 1; i++) {
             offset = i * Nx;
             for (j = 1; j < Nx - 1; j++) {
@@ -133,4 +127,47 @@ void mainProg(Loader loader, ParamsBase a) {
         free(F2);
         F2 = (float*)calloc(Ny * Nx, sizeof(float));
     }
+}
+
+void randomProg() {
+    string filePath = "D:\\Prog\\Luna\\RandomSearch.json";
+    cout << "I test\n" << filePath << endl;
+    MainParamsBase* params = new MainParamsBase(filePath);
+    ParamsBase a = ParamsBase(params);
+    RandomSearch finder = RandomSearch(params);
+    int value = 32;
+    vector<string> optimizeNamel;
+    optimizeNamel.push_back("one");
+    optimizeNamel.push_back("two");
+    while (finder.IsEnd(value))
+    {
+        finder.TryOptimize(optimizeNamel);
+        a.Update();
+        cout << "Int value = " << a.GetInt("one") << ", Double value = " << a.GetDouble("two") << endl;
+        value = value / 2;
+    }
+    finder.TryOptimize(optimizeNamel);
+    a.Update();
+    cout << "Int value = " << a.GetInt("one") << ", Double value = " << a.GetDouble("two") << endl;
+    finder.selectBestSuggest();
+    a.Update();
+    cout << "BESST IS : Int value = " << a.GetInt("one") << ", Double value = " << a.GetDouble("two") << endl;
+}
+
+void restrictionsTest() {
+    string filePath = "D:\\Prog\\Luna\\SimpleLoader\\SimpleLoader\\Restrictions.json";
+    cout << "I test\n" << filePath << endl;
+    MainParamsBase* params = new MainParamsBase(filePath);
+    cout << "Value is " << params->GetInt("one") << ". Try set 10(valid);" << endl;
+    params->SetInt("one", 10);
+    cout << "Value is " << params->GetInt("one") << ". Try set 101(invalid);" << endl;
+    params->SetInt("one", 101);
+    cout << "Value is " << params->GetInt("one") << endl;
+}
+
+int main()
+{
+    //restrictionsTest();
+    //randomProg();
+    mainProg();
 }

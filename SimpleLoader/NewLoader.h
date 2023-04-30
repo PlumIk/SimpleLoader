@@ -9,15 +9,14 @@
 #include "rapidjson/stringbuffer.h"
 using namespace rapidjson;
 
-class Loader
+class NewLoader
 {
-private:
 
 
 	/// <summary>
 	/// Словарь имя-тип.
 	/// </summary>
-	std::map <std::string , int> _nameType;
+	std::map <std::string, int> _nameType;
 
 	/// <summary>
 	/// Парсит массивы из json.
@@ -27,7 +26,8 @@ private:
 	/// <param name="val">Запакованное значение.</param>
 	void ParseMas(std::string name, int type, Value* val);
 
-public:	
+public:
+
 
 	/// <summary>
 	/// Словарь имя-инт.
@@ -62,13 +62,13 @@ public:
 	/// <summary>
 	/// Конструктор по умолчанию.
 	/// </summary>
-	Loader();
+	NewLoader();
 
 	/// <summary>
 	/// Конструктор класса.
 	/// </summary>
 	/// <param name="filePath">Расположения файла.</param>
-	Loader(std::string filePath);
+	NewLoader(std::string filePath);
 
 	/// <summary>
 	/// Функция для эксперементов.
@@ -84,12 +84,16 @@ public:
 	/// <returns>Записанное значение.</returns>
 	int GetInt(std::string name);
 
+	bool SetInt(std::string name, int value);
+
 	/// <summary>
 	/// Возвращает записанный дабл.
 	/// </summary>
 	/// <param name="name">Имя.</param>
 	/// <returns>Записанное значение.</returns>
 	double GetDouble(std::string name);
+
+	bool SetDouble(std::string name, double value);
 
 	/// <summary>
 	/// Возвращает записанный стринг.
@@ -98,12 +102,16 @@ public:
 	/// <returns>Записанное значение.</returns>
 	std::string GetString(std::string name);
 
+	bool SetString(std::string name, std::string value);
+
 	/// <summary>
 	/// Возвращает записанный массив инт.
 	/// </summary>
 	/// <param name="name">Имя.</param>
 	/// <returns>Записанное значение.</returns>
 	std::vector<int> GetIntMas(std::string name);
+
+	bool SetIntMas(std::string name, std::vector<int> value);
 
 	/// <summary>
 	/// Возвращает записанный массив дабл.
@@ -112,6 +120,8 @@ public:
 	/// <returns>Записанное значение.</returns>
 	std::vector<double> GetDoubleMas(std::string name);
 
+	bool SetDoubleMas(std::string name, std::vector<double> value);
+
 	/// <summary>
 	/// Возвращает записанный мфссив стринг.
 	/// </summary>
@@ -119,11 +129,27 @@ public:
 	/// <returns>Записанное значение.</returns>
 	std::vector<std::string> GetStringMas(std::string name);
 
+	bool SetStringMas(std::string name, std::vector<std::string> value);
+
 	/// <summary>
 	/// Определяет тип параметра.
 	/// </summary>
 	/// <param name="name">Имя</param>
 	/// <returns>тип</returns>
 	int  GetType(std::string name);
+
+	bool CanChange(std::string name);
+
+	bool HaveRestrictions(std::string name);
+
+	bool HavePossible(std::string name);
+
+	std::map <std::string, std::vector<std::map< std::string, int>>> NameIntPosible;
+
+	std::map <std::string, std::vector<std::map< std::string, double>>> NameDoublePosible;
+
+	std::map <std::string, std::vector<int>> NameIntRestrictions;
+
+	std::map <std::string, std::vector<double>> NameDoublerestRictions;
 };
 

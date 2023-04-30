@@ -4,7 +4,7 @@
 
 using namespace std;
 
-class Types
+class Keywords
 {
 public:
 	/// <summary>
@@ -21,6 +21,10 @@ public:
 	/// Ключ значения шага.
 	/// </summary>
 	const char* STEP = "step";
+
+	const char* RESTRICTIONS = "_restrictions";
+
+	const char* POSSIBLE = "_possible";
 
 	/// <summary>
 	/// Тип инт.
@@ -66,5 +70,13 @@ public:
 	/// Значения максимального типа.
 	/// </summary>
 	const int MAX_TYPE_NUM = 9;
+
+	bool isNumber(int type);
+
+	bool isMas(int type);
+
+	bool isString(int type);
+
+	bool isValidType(int type);
 };
 

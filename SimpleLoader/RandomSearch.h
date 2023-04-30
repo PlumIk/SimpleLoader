@@ -12,13 +12,18 @@ private:
 
 	double Random(double min, double max);
 
-	int Special();
+	map<string, LocalObject> latestValues;
 
 public:
+
 	void TryOptimize(vector<string> optimizedParams);
 
 	bool IsEnd(double optimizedValue);
 
-	RandomSearch(Loader* params);
+	RandomSearch(MainParamsBase* params);
+
+	void selectBestSuggest();
+
+	void selectBestSuggest(vector<string> names);
 };
 

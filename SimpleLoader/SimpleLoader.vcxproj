@@ -129,23 +129,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="IFinder.cpp" />
-    <ClCompile Include="Loader.cpp" />
+    <ClCompile Include="MainParamsBase.cpp" />
+    <ClCompile Include="NewLoader.cpp" />
     <ClCompile Include="ParamsBase.cpp" />
     <ClCompile Include="RandomSearch.cpp" />
     <ClCompile Include="SimpleLoader.cpp" />
-    <ClCompile Include="Types.cpp" />
+    <ClCompile Include="Keywords.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IFinder.h" />
-    <ClInclude Include="Loader.h" />
+    <ClInclude Include="MainParamsBase.h" />
+    <ClInclude Include="NewLoader.h" />
     <ClInclude Include="ParamsBase.h" />
     <ClInclude Include="RandomSearch.h" />
-    <ClInclude Include="Types.h" />
+    <ClInclude Include="Keywords.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\RandomSearch.json" />
     <None Include="..\..\Text.json" />
+    <None Include="NewFormat.json" />
     <None Include="packages.config" />
+    <None Include="Restrictions.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
