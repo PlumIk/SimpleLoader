@@ -42,9 +42,6 @@
     <ClCompile Include="RandomSearch.cpp">
       <Filter>Source Files\DataFinder</Filter>
     </ClCompile>
-    <ClCompile Include="NewLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainParamsBase.h">
@@ -61,9 +58,6 @@
     </ClInclude>
     <ClInclude Include="RandomSearch.h">
       <Filter>Header Files\DataFinder</Filter>
-    </ClInclude>
-    <ClInclude Include="NewLoader.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

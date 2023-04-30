@@ -130,7 +130,6 @@
   <ItemGroup>
     <ClCompile Include="IFinder.cpp" />
     <ClCompile Include="MainParamsBase.cpp" />
-    <ClCompile Include="NewLoader.cpp" />
     <ClCompile Include="ParamsBase.cpp" />
     <ClCompile Include="RandomSearch.cpp" />
     <ClCompile Include="SimpleLoader.cpp" />
@@ -139,7 +138,6 @@
   <ItemGroup>
     <ClInclude Include="IFinder.h" />
     <ClInclude Include="MainParamsBase.h" />
-    <ClInclude Include="NewLoader.h" />
     <ClInclude Include="ParamsBase.h" />
     <ClInclude Include="RandomSearch.h" />
     <ClInclude Include="Keywords.h" />
