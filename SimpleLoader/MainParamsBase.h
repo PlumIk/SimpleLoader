@@ -139,10 +139,43 @@ public:
 	/// <returns>тип</returns>
 	int  GetType(std::string name);
 
-	bool CanChange(std::string name);
+	std::map <std::string, std::vector<int>> NameIntRestrictions;
 
-	bool HaveRestrictions(std::string name);
+	std::map <std::string, std::vector<double>> NameDoubleRestrictions;
 
-	bool HavePossible(std::string name);
+	std::map <std::string, std::map<std::string, std::vector<int>>> NameIntPosible;
+
+	std::map <std::string, std::map<std::string, std::vector<double>>> NameDoublePosible;
+
+	void ParseValue(std::string name, int type, Value* valValue);
+
+	std::vector<int> GetIntRestrictions(std::string name);
+
+	std::vector<double> GetDoubleRestrictions(std::string name);
+
+	std::vector<int> GetIntPosible(std::string valueName, std::string posibleName);
+
+	std::vector<double> GetDoublePosible(std::string valueName, std::string posibleName);
+
+	bool AddIntVar(std::string name, int value);
+
+	bool AddDoubleVar(std::string name, double value);
+
+	bool AddStringVar(std::string name, std::string value);
+
+	bool AddIntMasVar(std::string name, std::vector<int> value);
+
+	bool AddDoubleMasVar(std::string name, std::vector<double> value);
+
+	bool AddStringMasVar(std::string name, std::vector <std::string> value);
+
+	bool AddIntVarRestrictions(std::string name, std::vector<int> value);
+
+	bool AddDoubleVarRestrictions(std::string name, std::vector<double> value);
+
+	bool AddIntVarPosible(std::string name, std::string posibleName, std::vector<int> value);
+
+	bool AddDoubleVarPosible(std::string name, std::string posibleName, std::vector<double> value);
+
 };
 

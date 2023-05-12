@@ -24,8 +24,6 @@ public:
 
 	const char* RESTRICTIONS = "_restrictions";
 
-	const char* POSSIBLE = "_possible";
-
 	/// <summary>
 	/// “ип инт.
 	/// </summary>
@@ -78,5 +76,9 @@ public:
 	bool isString(int type);
 
 	bool isValidType(int type);
+
+	bool isSpecialName(std::string name, std::string word) {
+		return word.compare(VALUE) == 0 || word.compare(TYPE) == 0 || word.compare(name + RESTRICTIONS) == 0;
+	}
 };
 

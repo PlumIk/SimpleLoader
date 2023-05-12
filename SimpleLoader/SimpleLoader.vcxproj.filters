@@ -62,13 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="..\..\RandomSearch.json">
-      <Filter>Data</Filter>
-    </None>
     <None Include="..\..\Text.json">
-      <Filter>Data</Filter>
-    </None>
-    <None Include="Restrictions.json">
       <Filter>Data</Filter>
     </None>
     <None Include="NewFormat.json">

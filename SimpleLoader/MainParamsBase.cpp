@@ -27,29 +27,87 @@ MainParamsBase::MainParamsBase(std::string filePath) {
 		documentFromFile.ParseStream(isw);
 		for (auto& m : documentFromFile.GetObject()) {
 			Value& val = m.value;
-			if (val.HasMember(keywords.TYPE) && val.HasMember(keywords.VALUE)&&val.MemberCount() == 2) {
+			if (val.HasMember(keywords.TYPE)) {
 				int valType = val.FindMember(keywords.TYPE)->value.GetInt();
 				Value& valValue = val.FindMember(keywords.VALUE)->value;
 				string name = m.name.GetString();
 				_nameType.insert(make_pair(name, valType));
-				if (valType == keywords.INT_TYPE) {
-					NameInt.insert(make_pair(name, valValue.GetInt()));
+				if (keywords.isNumber(valType)) {
+					ParseValue(name, valType, &val);
 				}
-				else if (valType == keywords.DOUBLE_TYPE) {
-					NameDouble.insert(make_pair(name, valValue.GetDouble()));
-				}
-				else if (valType == keywords.STRING_TYPE) {
-					NameString.insert(make_pair(name, valValue.GetString()));
-				}
-				else if (valType < keywords.MAX_TYPE_NUM) {
-					ParseMas(name, valType, &valValue);
+				else if(val.HasMember(keywords.VALUE) && val.MemberCount() == 2) {
+					if (keywords.isString(valType)) {
+						NameString.insert(make_pair(name, valValue.GetString()));
+					}
+					else if (keywords.isValidType(valType)) {
+						ParseMas(name, valType, &valValue);
+					}
 				}
 			}
 		}
 	}
 	else {
-		cout << "ERROR, WRONG FILE NAME\n";
+		throw new exception("ERROR, WRONG FILE NAME");
 	}
+}
+
+void MainParamsBase::ParseValue(std::string name, int type, Value* valValue) {
+	for (auto& curField : valValue->GetObject()) {
+		std::string fieldName = curField.name.GetString();
+		if (!keywords.isSpecialName(name, fieldName)) {
+			if (type == keywords.INT_TYPE) {
+				vector<int> values;
+				auto a = curField.value.GetArray();
+				for (int i = 0; i < curField.value.Size(); i++) {
+					values.push_back(a[i].GetInt());
+				}
+				if (NameIntPosible.find(name) == NameIntPosible.end()) {
+					std::map<std::string, std::vector<int>> ins;
+					NameIntPosible.insert(make_pair(name, ins));
+				}
+				NameIntPosible[name].insert(make_pair(fieldName, values));
+			}
+			else {
+				vector<double> values;
+				auto a = curField.value.GetArray();
+				for (int i = 0; i < curField.value.Size(); i++) {
+					values.push_back(a[i].GetDouble());
+				}
+				if (NameDoublePosible.find(name) == NameDoublePosible.end()) {
+					std::map<std::string, std::vector<double>> ins;
+					NameDoublePosible.insert(make_pair(name, ins));
+				}
+				NameDoublePosible[name].insert(make_pair(fieldName, values));
+			}
+		}
+		else if (fieldName.compare(name + keywords.RESTRICTIONS) == 0) {
+			if (type == keywords.INT_TYPE) {
+				vector<int> values;
+				auto a = curField.value.GetArray();
+				for (int i = 0; i < curField.value.Size(); i++) {
+					values.push_back(a[i].GetInt());
+				}
+				NameIntRestrictions.insert(make_pair(name, values));
+			}
+			else {
+				vector<double> values;
+				auto a = curField.value.GetArray();
+				for (int i = 0; i < curField.value.Size(); i++) {
+					values.push_back(a[i].GetDouble());
+				}
+				NameDoubleRestrictions.insert(make_pair(name, values));
+			}
+		}
+		else if (fieldName.compare(keywords.VALUE) == 0) {
+			if (type == keywords.INT_TYPE) {
+				NameInt.insert(make_pair(name, curField.value.GetInt()));
+			}
+			else {
+				NameDouble.insert(make_pair(name, curField.value.GetDouble()));
+			}
+		}
+	}
+
 }
 
 void MainParamsBase::ParseMas(std::string name, int type, Value* valValue) {
@@ -187,16 +245,6 @@ void MainParamsBase::DoSome() {
 		}
 		cout << "]\n";
 	}
-	
-}
-
-bool MainParamsBase::CanChange(std::string name) {
-	return name.find(keywords.RESTRICTIONS) == std::string::npos;
-}
-
-bool MainParamsBase::HaveRestrictions(std::string name) {
-	vector<std::string> names = GetNames();
-	return std::find(names.begin(), names.end(), name + keywords.RESTRICTIONS) != names.end();
 }
 
 int MainParamsBase::GetInt(std::string name)
@@ -205,11 +253,11 @@ int MainParamsBase::GetInt(std::string name)
 }
 
 bool MainParamsBase::SetInt(std::string name, int value) {
-	if (!MainParamsBase::HaveRestrictions(name)) {
+	if (GetIntRestrictions(name).size()==0) {
 		NameInt[name] = value;
 		return true;
 	}
-	vector<int> restrictions = MainParamsBase::GetIntMas(name + keywords.RESTRICTIONS);
+	vector<int> restrictions = GetIntRestrictions(name);
 	bool isValid = value >= restrictions[0] && value <= restrictions[1];
 	if (isValid) {
 		NameInt[name] = value;
@@ -224,11 +272,11 @@ double MainParamsBase::GetDouble(std::string name)
 }
 
 bool MainParamsBase::SetDouble(std::string name, double value) {
-	if (!MainParamsBase::HaveRestrictions(name)) {
+	if (GetDoubleRestrictions(name).size() == 0) {
 		NameDouble[name] = value;
 		return true;
 	}
-	vector<double> restrictions = GetDoubleMas(name + keywords.RESTRICTIONS);
+	vector<double> restrictions = GetDoubleRestrictions(name);
 	bool isValid = value >= restrictions[0] && value <= restrictions[1];
 	if (isValid) {
 		NameDouble[name] = value;
@@ -253,11 +301,8 @@ vector<int> MainParamsBase::GetIntMas(std::string name)
 }
 
 bool MainParamsBase::SetIntMas(std::string name, std::vector<int> value) {
-	if (MainParamsBase::CanChange(name)) {
 		NameIntMas[name] = value;
 		return true;
-	}
-	return false;
 }
 
 vector<double> MainParamsBase::GetDoubleMas(std::string name)
@@ -266,11 +311,8 @@ vector<double> MainParamsBase::GetDoubleMas(std::string name)
 }
 
 bool MainParamsBase::SetDoubleMas(std::string name, std::vector<double> value) {
-	if (MainParamsBase::CanChange(name)) {
-		NameDoubleMas[name] = value;
+	NameDoubleMas[name] = value;
 		return true;
-	}
-	return false;
 }
 
 vector<string> MainParamsBase::GetStringMas(std::string name)
@@ -298,8 +340,137 @@ vector<std::string> MainParamsBase::GetNames() {
 	return forRet;
 }
 
-bool MainParamsBase::HavePossible(std::string name) {
-	vector<std::string> names = GetNames();
-	return std::find(names.begin(), names.end(), name + keywords.POSSIBLE) != names.end();
+std::vector<int> MainParamsBase::GetIntRestrictions(std::string name) {
+	if (NameIntRestrictions.find(name) != NameIntRestrictions.end()) {
+		return NameIntRestrictions[name];
+	}
+	std::vector<int> empty;
+	return empty;
+}
+
+std::vector<double> MainParamsBase::GetDoubleRestrictions(std::string name) {
+	if (NameDoubleRestrictions.find(name) != NameDoubleRestrictions.end()) {
+		return NameDoubleRestrictions[name];
+	}
+	std::vector<double> empty;
+	return empty;
+}
+
+std::vector<int> MainParamsBase::GetIntPosible(std::string valueName, std::string posibleName) {
+	if (NameIntPosible.find(valueName) != NameIntPosible.end() && 
+		NameIntPosible[valueName].find(posibleName)!= NameIntPosible[valueName].end()) {
+		return NameIntPosible[valueName][posibleName];
+	}
+	std::vector<int> empty;
+	return empty;
+}
+
+std::vector<double> MainParamsBase::GetDoublePosible(std::string valueName, std::string posibleName) {
+	if (NameDoublePosible.find(valueName) != NameDoublePosible.end() &&
+		NameDoublePosible[valueName].find(posibleName) != NameDoublePosible[valueName].end()) {
+		return NameDoublePosible[valueName][posibleName];
+	}
+	std::vector<double> empty;
+	return empty;
+}
+
+bool MainParamsBase::AddIntVar(std::string name, int value) {
+	if (_nameType.find(name) != _nameType.end()) {
+		return false;
+	}
+	NameInt.insert(make_pair(name, value));
+	return true;
+}
+
+bool MainParamsBase::AddDoubleVar(std::string name, double value) {
+	if (_nameType.find(name) != _nameType.end()) {
+		return false;
+	}
+	NameDouble.insert(make_pair(name, value));
+	return true;
+}
+
+bool MainParamsBase::AddStringVar(std::string name, std::string value) {
+	if (_nameType.find(name) != _nameType.end()) {
+		return false;
+	}
+	NameString.insert(make_pair(name, value));
+	return true;
+}
+
+bool MainParamsBase::AddIntMasVar(std::string name, std::vector<int> value) {
+	if (_nameType.find(name) != _nameType.end()) {
+		return false;
+	}
+	NameIntMas.insert(make_pair(name, value));
+	return true;
+}
+
+bool MainParamsBase::AddDoubleMasVar(std::string name, std::vector<double> value) {
+	if (_nameType.find(name) != _nameType.end()) {
+		return false;
+	}
+	NameDoubleMas.insert(make_pair(name, value));
+	return true;
+}
+
+bool MainParamsBase::AddStringMasVar(std::string name, std::vector <std::string> value) {
+	if (_nameType.find(name) != _nameType.end()) {
+		return false;
+	}
+	NameStringMas.insert(make_pair(name, value));
+	return true;
+}
+
+bool MainParamsBase::AddIntVarRestrictions(std::string name, std::vector<int> value) {
+	if (_nameType.find(name) != _nameType.end() || NameIntRestrictions.find(name) != NameIntRestrictions.end() || value.size() != 2) {
+		return false;
+	}
+	NameIntRestrictions.insert(make_pair(name, value));
+	return true;
+}
+
+bool MainParamsBase::AddDoubleVarRestrictions(std::string name, std::vector<double> value) {
+	if (_nameType.find(name) != _nameType.end() || NameDoubleRestrictions.find(name) != NameDoubleRestrictions.end() || value.size() != 2) {
+		return false;
+	}
+	NameDoubleRestrictions.insert(make_pair(name, value));
+	return true;
+}
+
+bool MainParamsBase::AddIntVarPosible(std::string name, std::string posibleName, std::vector<int> value) {
+	if (_nameType.find(name) != _nameType.end() || value.size() < 1) {
+		return false;
+	}
+	else if (NameIntPosible.find(name) != NameIntPosible.end()) {
+		if (NameIntPosible[name].find(posibleName) != NameIntPosible[name].end()) {
+			return false;
+		}
+		else
+		{
+			std::map<std::string, std::vector<int>> ins;
+			NameIntPosible.insert(make_pair(name, ins));
+		}
+	}
+	NameIntPosible[name].insert(make_pair(posibleName, value));
+	return true;
+}
+
+bool MainParamsBase::AddDoubleVarPosible(std::string name, std::string posibleName, std::vector<double> value) {
+	if (_nameType.find(name) != _nameType.end() || value.size() < 1) {
+		return false;
+	}
+	else if (NameDoublePosible.find(name) != NameDoublePosible.end()) {
+		if (NameDoublePosible[name].find(posibleName) != NameDoublePosible[name].end()) {
+			return false;
+		}
+		else
+		{
+			std::map<std::string, std::vector<double>> ins;
+			NameDoublePosible.insert(make_pair(name, ins));
+		}
+	}
+	NameDoublePosible[name].insert(make_pair(posibleName, value));
+	return true;
 }
 

@@ -1,6 +1,18 @@
 {
   "one": {
     "type": 1,
+    "value": 1,
+    "value1": [ 1, 2 ],
+    "one_restrictions": [ 1, 4 ]
+  },
+  "two": {
+    "type": 2,
+    "value": 3.5,
+    "value1": [ 1, 2 ],
+    "two_restrictions": [ 1, 4 ]
+  },
+  "three": {
+    "type": 1,
     "value": 1
   }
 }

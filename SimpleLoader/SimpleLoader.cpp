@@ -27,6 +27,15 @@ __m256* VRoMass;
 #define SAVE_VARIBLE_NAME(varible) VARIBLE_NAME = string(#varible);
 string VARIBLE_NAME = "NULL";
 
+void operationSuccsess(bool succsess) {
+    if (succsess) {
+        cout << "Succsess" << endl;
+    }
+    else {
+        cout << "Cant do it" << endl;
+    }
+}
+
 void mainProg() {
     string filePath = "D:\\Prog\\Luna\\Text.json";
     cout << "I test\n" << filePath << endl;
@@ -129,45 +138,80 @@ void mainProg() {
     }
 }
 
-void randomProg() {
-    string filePath = "D:\\Prog\\Luna\\RandomSearch.json";
+void newLogic() {
+    string filePath = "D:\\Prog\\Luna\\SimpleLoader\\SimpleLoader\\NewFormat.json";
     cout << "I test\n" << filePath << endl;
     MainParamsBase* params = new MainParamsBase(filePath);
-    ParamsBase a = ParamsBase(params);
-    RandomSearch finder = RandomSearch(params);
-    int value = 32;
-    vector<string> optimizeNamel;
-    optimizeNamel.push_back("one");
-    optimizeNamel.push_back("two");
-    while (finder.IsEnd(value))
-    {
-        finder.TryOptimize(optimizeNamel);
-        a.Update();
-        cout << "Int value = " << a.GetInt("one") << ", Double value = " << a.GetDouble("two") << endl;
-        value = value / 2;
+    cout << "Work with int value one." << endl;
+    vector<int> intV = params->GetIntRestrictions("one");
+    cout <<"Name:one." << "Value:"<<params->GetInt("one") << ". Restrictions:" << intV[0] << " - " << intV[1];
+    intV = params->GetIntPosible("one","value1");
+    cout << ". Posible: " << intV[0] << " - " << intV[1] << endl;
+    cout << "Try set value 5. ";
+    operationSuccsess(params->SetInt("one", 5));
+    cout << "Try set value 2. ";
+    operationSuccsess(params->SetInt("one", 2));
+    cout << "Name:one." << "Value:" << params->GetInt("one") << endl <<endl;
+
+    vector<double> doubleV = params->GetDoubleRestrictions("two");
+    cout << "Name:two." << "Value:" << params->GetDouble("two") << ". Restrictions:" << doubleV[0] << " - " << doubleV[1];
+    doubleV = params->GetDoublePosible("two", "value1");
+    cout << ". Posible: " << doubleV[0] << " - " << doubleV[1] << endl;
+    cout << "Try set value 5. ";
+    operationSuccsess(params->SetDouble("two", 5));
+    cout << "Try set value 2. ";
+    operationSuccsess(params->SetDouble("two", 2));
+    cout << "Name:two." << "Value:" << params->GetDouble("two") << endl << endl;
+
+    cout << "Try get info about three" << endl;
+    intV = params->GetIntRestrictions("three");
+    if (intV.size() == 0) {
+        cout << "Empty res for three" << endl;
     }
-    finder.TryOptimize(optimizeNamel);
-    a.Update();
-    cout << "Int value = " << a.GetInt("one") << ", Double value = " << a.GetDouble("two") << endl;
-    finder.selectBestSuggest();
-    a.Update();
-    cout << "BESST IS : Int value = " << a.GetInt("one") << ", Double value = " << a.GetDouble("two") << endl;
+    else {
+        throw new exception("Empty restriction");
+    }
+    intV = params->GetIntPosible("three","value1");
+    if (intV.size() == 0) {
+        cout << "Empty posible for three" << endl;
+    }
+    else {
+        throw new exception("Empty restriction");
+    }
+
+    cout << "Set info about four. It will be double with value 2.5. " ;
+    operationSuccsess(params->AddDoubleVar("four", 2.5));
+    cout << "Set restriction -1 - 17. ";
+    vector<double> vec;
+    vec.push_back(-1);
+    vec.push_back(17);
+    operationSuccsess(params->AddDoubleVarRestrictions("four", vec));
+    cout << "Set posible -1,2,15. ";
+    vector<double> vec2;
+    vec2.push_back(-1);
+    vec2.push_back(2);
+    vec2.push_back(15);
+    operationSuccsess(params->AddDoubleVarPosible("four", "value1", vec2));
+    vec = params->GetDoublePosible("four", "value1");
+    if (vec.size() == 3) {
+        cout << "Posible: " << vec[0] << "," << vec[1] <<"," << vec[2] << endl;
+    }
+    else {
+        throw new exception("Empty restriction");
+    }
+    vec = params->GetDoubleRestrictions("four");
+    if (vec.size() == 2) {
+        cout << "Restrictions:" << vec[0] << " - " << vec[1] << endl;
+    }
+    else {
+        throw new exception("Empty restriction");
+    }
+    cout << "Name:four." << "Value:" << params->GetDouble("four") << endl << endl;
 }
 
-void restrictionsTest() {
-    string filePath = "D:\\Prog\\Luna\\SimpleLoader\\SimpleLoader\\Restrictions.json";
-    cout << "I test\n" << filePath << endl;
-    MainParamsBase* params = new MainParamsBase(filePath);
-    cout << "Value is " << params->GetInt("one") << ". Try set 10(valid);" << endl;
-    params->SetInt("one", 10);
-    cout << "Value is " << params->GetInt("one") << ". Try set 101(invalid);" << endl;
-    params->SetInt("one", 101);
-    cout << "Value is " << params->GetInt("one") << endl;
-}
 
 int main()
 {
-    //restrictionsTest();
-    //randomProg();
-    mainProg();
+    newLogic();
+    //mainProg();
 }

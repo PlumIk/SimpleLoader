@@ -143,11 +143,9 @@
     <ClInclude Include="Keywords.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\RandomSearch.json" />
     <None Include="..\..\Text.json" />
     <None Include="NewFormat.json" />
     <None Include="packages.config" />
-    <None Include="Restrictions.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

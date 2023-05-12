@@ -9,7 +9,7 @@ void RandomSearch::TryOptimize(vector<string> optimizedParams){
 		LocalObject obj;
 		obj.type = type;
 		if (IFinder::isConst(type)) {
-			if (!(*_params).HavePossible(paramName)) {
+			if ((*_params).GetIntPosible(paramName, "value1").size()==0) {
 				if (type == keywords.INT_TYPE) {
 					obj.intValue = Random(1, 8);
 					(*_params).SetInt(paramName, obj.intValue);
@@ -23,11 +23,11 @@ void RandomSearch::TryOptimize(vector<string> optimizedParams){
 			}
 			else {
 				if (type == keywords.INT_TYPE) {
-					vector<int> pos= (*_params).GetIntMas(paramName + keywords.POSSIBLE);
+					vector<int> pos= (*_params).GetIntPosible(paramName, "value1");
 					obj.intValue = pos[Random(0, pos.size())];
 				}
 				else if (type == keywords.DOUBLE_TYPE) {
-					vector<double> pos = (*_params).GetDoubleMas(paramName + keywords.POSSIBLE);
+					vector<double> pos = (*_params).GetDoublePosible(paramName, "value1");
 					obj.intValue = pos[Random(0.0, pos.size())];
 				}
 				currentMap[paramName] = obj;
