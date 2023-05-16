@@ -154,13 +154,17 @@ void newLogic() {
     cout << "Name:one." << "Value:" << params->GetInt("one") << endl <<endl;
 
     vector<double> doubleV = params->GetDoubleRestrictions("two");
-    cout << "Name:two." << "Value:" << params->GetDouble("two") << ". Restrictions:" << doubleV[0] << " - " << doubleV[1];
+    cout << "Name:two." << "Value:" << params->GetDouble("two");
+    if (doubleV.size() > 0) {
+        throw new exception("Not empty restriction");
+    }
+    else {
+        cout << ". Have not restrictions";
+    }
     doubleV = params->GetDoublePosible("two", "value1");
     cout << ". Posible: " << doubleV[0] << " - " << doubleV[1] << endl;
-    cout << "Try set value 5. ";
-    operationSuccsess(params->SetDouble("two", 5));
-    cout << "Try set value 2. ";
-    operationSuccsess(params->SetDouble("two", 2));
+    cout << "Try set value 15. ";
+    operationSuccsess(params->SetDouble("two", 15));
     cout << "Name:two." << "Value:" << params->GetDouble("two") << endl << endl;
 
     cout << "Try get info about three" << endl;
@@ -179,7 +183,7 @@ void newLogic() {
         throw new exception("Empty restriction");
     }
 
-    cout << "Set info about four. It will be double with value 2.5. " ;
+    cout <<endl<< "Set info about four. It will be double with value 2.5. " ;
     operationSuccsess(params->AddDoubleVar("four", 2.5));
     cout << "Set restriction -1 - 17. ";
     vector<double> vec;
@@ -212,6 +216,6 @@ void newLogic() {
 
 int main()
 {
-    newLogic();
-    //mainProg();
+    //newLogic();
+    mainProg();
 }

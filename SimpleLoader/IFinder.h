@@ -29,7 +29,7 @@ private:
 
 protected:
 
-	double _previose = std::numeric_limits<double>::max();
+	double previose = std::numeric_limits<double>::max();
 
 	map<string, LocalObject> bestSuggest;
 

@@ -8,8 +8,7 @@
   "two": {
     "type": 2,
     "value": 3.5,
-    "value1": [ 1, 2 ],
-    "two_restrictions": [ 1, 4 ]
+    "value1": [ 1, 2 ]
   },
   "three": {
     "type": 1,

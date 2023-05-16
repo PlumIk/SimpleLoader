@@ -13,37 +13,37 @@ void RandomSearch::TryOptimize(vector<string> optimizedParams){
 				if (type == keywords.INT_TYPE) {
 					obj.intValue = Random(1, 8);
 					(*_params).SetInt(paramName, obj.intValue);
-					currentMap[paramName] = obj;
 				}
 				else if (type == keywords.DOUBLE_TYPE) {
 					obj.doubleValue = Random(1.0, 8.5);
 					(*_params).SetDouble(paramName, obj.doubleValue);
-					currentMap[paramName] = obj;
 				}
 			}
 			else {
 				if (type == keywords.INT_TYPE) {
 					vector<int> pos= (*_params).GetIntPosible(paramName, "value1");
 					obj.intValue = pos[Random(0, pos.size())];
+					(*_params).SetInt(paramName, obj.intValue);
 				}
 				else if (type == keywords.DOUBLE_TYPE) {
 					vector<double> pos = (*_params).GetDoublePosible(paramName, "value1");
 					obj.intValue = pos[Random(0.0, pos.size())];
+					(*_params).SetDouble(paramName, obj.doubleValue);
 				}
-				currentMap[paramName] = obj;
 			}
+			currentMap[paramName] = obj;
 		}
 	}
 	latestValues = currentMap;
 }
 
 bool RandomSearch::IsEnd(double optimizedValue) {
-	if (_previose <= optimizedValue) {
+	if (previose <= optimizedValue) {
 		_trys++;
 	}
 	else {
 		_trys = 0;
-		_previose = optimizedValue;
+		previose = optimizedValue;
 		for (map<string, LocalObject>::iterator it = latestValues.begin(); it != latestValues.end(); it++) {
 			setBestSuggest(it->first, it->second);
 		}
